@@ -3,9 +3,7 @@ package com.dcstd.web.ecspserver.utils;
 import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
