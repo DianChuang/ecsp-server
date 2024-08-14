@@ -13,19 +13,20 @@ import java.util.Date;
 
 /**
  * @FileName MyTask
- * @Description
+ * @Description 定时器，暂时搁置
  * @Author fazhu
  * @date 2024-08-14
  **/
+
 @Component
 public class MyTask implements SchedulingConfigurer{
     @Autowired
     private CronMapper cronMapper;
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        taskRegistrar.addTriggerTask(()->use(),
+        taskRegistrar.addTriggerTask(()-> use(),
                 triggerContext -> {
-                    String cron = cronMapper.getCron(1);
+                    String cron = time();
                     if (cron.isEmpty()) {
                         System.out.println("cron is null");
                     }
@@ -33,10 +34,10 @@ public class MyTask implements SchedulingConfigurer{
                 }
                 );
     }
-    private void use(){
-        System.out.println("基于接口定时任务");
+    public void use(){
+
     }
-    private Date time(Date date){
-        return date;
+    public String time(){
+        return DateUtil.getCron(new Date());
     }
 }
