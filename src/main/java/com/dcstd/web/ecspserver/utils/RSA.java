@@ -1,4 +1,4 @@
-package com.dcstd.web.ecspserver.common;
+package com.dcstd.web.ecspserver.utils;
 
 //RSA.java
 import javax.crypto.BadPaddingException;
@@ -7,7 +7,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.security.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Base64;
 
 public class RSA {
