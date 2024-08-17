@@ -1,8 +1,6 @@
 package com.dcstd.web.ecspserver.entity.incoming;
 
 import cn.hutool.core.date.DateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
