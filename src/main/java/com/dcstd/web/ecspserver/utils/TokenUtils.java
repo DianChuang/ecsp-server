@@ -6,6 +6,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
 import com.dcstd.web.ecspserver.entity.User;
+import com.dcstd.web.ecspserver.exception.CustomException;
+import com.dcstd.web.ecspserver.exception.GlobalException;
 import com.dcstd.web.ecspserver.mapper.UserMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -57,12 +59,12 @@ public class TokenUtils {
             String token = request.getHeader("Authorization");
             if(StrUtil.isNotBlank(token)){
                 String uid = JWT.decode(token).getAudience().get(0);
-                return staticUserMapper.selectById(uid);
+                return staticUserMapper.selectUserById(uid);
             }
         } catch (Exception e) {
-            return null;
+            throw new CustomException(GlobalException.ERROR_TOKEN);
         }
-        return null;
+        throw new CustomException();
     }
 
 }

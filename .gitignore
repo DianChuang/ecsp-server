@@ -36,3 +36,5 @@ build/
 *.yml
 /src/test
 src/main/resources/application.yml
+/src/main/resources/static/id_rsa
+/src/main/resources/static/id_rsa.pub

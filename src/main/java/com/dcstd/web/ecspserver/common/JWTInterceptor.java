@@ -46,7 +46,7 @@ public class JWTInterceptor implements HandlerInterceptor {
             throw new CustomException(GlobalException.ERROR_TOKEN);
         }
         // 根据token中的uid查询数据库用户信息
-        User db_user = userMapper.selectById(uid);
+        User db_user = userMapper.selectUserById(uid);
         if(db_user == null){
             throw new CustomException(GlobalException.ERROR_TOKEN);
         }

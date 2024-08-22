@@ -1,5 +1,6 @@
 package com.dcstd.web.ecspserver.utils;
 
+import com.dcstd.web.ecspserver.common.AuthAccess;
 import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
 import jakarta.annotation.Resource;
@@ -14,6 +15,7 @@ public class Ping {
     @Resource
     GlobalConfiguration globalConfiguration;
 
+    @AuthAccess
     @RequestMapping("/ping")
     public Result ping() {
         HashMap<String, String> AppInfo = new HashMap<>();

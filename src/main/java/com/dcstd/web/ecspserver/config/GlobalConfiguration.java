@@ -35,6 +35,8 @@ public class GlobalConfiguration {
     private String jwKaptcha;//验证码地址
     @Value("${custom-config.url.jw-login}")
     private String jwLogin;//教务系统登录地址
+    @Value("${custom-config.url.jw-user-info}")
+    private String jwUserInfo;//教务系统用户信息和获取
 
     /* 时间信息 */
     @Value("${custom-config.time.token-expire-time}")
@@ -42,5 +44,11 @@ public class GlobalConfiguration {
     @Value("${custom-config.time.cors-expire-time}")
     private int corsExpireTime;//当前跨域请求最大有效时长(秒)
 
+    @Value("${custom-config.Encrypt.filePath}")
+    private String filePath;//基础文件路径
+    @Value("${custom-config.Encrypt.publicFileName}")
+    private String publicFileName;//公钥文件名
+    @Value("${custom-config.Encrypt.privateFileName}")
+    private String privateFileName;//私钥文件名
 
 }
