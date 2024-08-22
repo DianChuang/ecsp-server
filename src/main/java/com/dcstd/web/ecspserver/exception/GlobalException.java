@@ -1,6 +1,9 @@
 package com.dcstd.web.ecspserver.exception;
 
+import lombok.Getter;
+
 //GlobalException.java
+@Getter
 public enum GlobalException {
     //枚举
     EMPTY(300, "返回结果为空","查不到数据捏 >.<"),
@@ -26,15 +29,4 @@ public enum GlobalException {
     }
 
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public String getTips() {
-        return tips;
-    }
 }

@@ -1,6 +1,9 @@
 package com.dcstd.web.ecspserver.exception;
 
+import lombok.Getter;
+
 //GlobalCustomException.java
+@Getter
 public class CustomException extends RuntimeException {
     private int code = 500;
     private String msg = "服务器异常";
@@ -30,16 +33,4 @@ public class CustomException extends RuntimeException {
         this.tips = tips;
     }
 
-    public int getCode()
-    {
-        return code;
-    }
-    public String getMsg()
-    {
-        return msg;
-    }
-    public String getTips()
-    {
-        return tips;
-    }
 }
