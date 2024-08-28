@@ -64,11 +64,15 @@ public class UserLogin {
             if(userInfoJsonObject == null || userInfoJsonObject.get("xh") == null || !account.equals(userInfoJsonObject.get("xh").toString())){
                 throw new CustomException(GlobalException.ERROR_REGISTER);
             }
-            newUserInfo.setId_student(Integer.parseInt(userInfoJsonObject.get("xh").toString()));
+            newUserInfo.setId_student(Integer.parseInt(userInfoJsonObject.get("xh").toString()));//用户学号
+            newUserInfo.setTime_join_school(userInfoJsonObject.get("rxrq").toString());//入学日期
+            newUserInfo.setSpecialized(userInfoJsonObject.get("zyh_id").toString());//专业
+            newUserInfo.setCollege(userInfoJsonObject.get("zsjg_id").toString());//学院
+            newUserInfo.setBirthday(userInfoJsonObject.get("csrq").toString());//生日
             try {
                 //存入用户真实姓名
                 String name = RSAUtils.encrypt(userInfoJsonObject.get("xm").toString());
-                newUserInfo.setName(userInfoJsonObject.get("xm").toString());
+                newUserInfo.setName(name);
                 //存入用户身份证号
                 String id_card = RSAUtils.encrypt(userInfoJsonObject.get("zjhm").toString());
                 newUserInfo.setId_card(id_card);
@@ -95,15 +99,16 @@ public class UserLogin {
         newUser.setWxoid(wxInfo.get("wxoid"));
         newUser.setWxsession(wxInfo.get("wxsession"));
 
-        //基础数据初始化
-        Integer uid = userMapper.selectByWxoid(wxInfo.get("wxoid")).getId();
-        newUserInfo.setUid(uid);
-        newUserInfo.setAvatar(globalConfiguration.getFileUserAvatar());
-        newUserInfo.setNickname("用户"+ uid);
-        newUserInfo.setProfile_intro("没有找到此人的个签ヾ(•ω•`)o");
-
         //插入用户基础信息
         userMapper.insertUser(newUser.getAccount(), newUser.getPassword(), newUser.getWxoid(), newUser.getWxsession());
+
+        //基础数据初始化
+        Integer uid = userMapper.selectByWxoid(wxInfo.get("wxoid")).getId();
+        newUserInfo.setUid(uid);//uid
+        newUserInfo.setAvatar(globalConfiguration.getFileUserAvatar());//头像
+        newUserInfo.setNickname("用户"+ uid);//昵称
+        newUserInfo.setProfile_intro("没有找到此人的个签ヾ(•ω•`)o");//个签
+
         //插入更多信息
         userMapper.insertUserInfo(newUserInfo.getUid(), newUserInfo.getAvatar(), newUserInfo.getGender(), newUserInfo.getName(), newUserInfo.getNickname(), newUserInfo.getId_student(), newUserInfo.getId_card(), newUserInfo.getProfile_intro(), newUserInfo.getEmail());
 

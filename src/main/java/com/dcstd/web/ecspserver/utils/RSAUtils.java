@@ -35,9 +35,7 @@ public class RSAUtils {
      * @throws Exception 读取公钥抛出的异常类型
      */
     public static PublicKey getPublicKey(String filename) throws Exception {
-        System.out.println("0");
         byte[] bytes = FileIOUtils.readBytesFromFile(filename);
-
         byte[] decodeBytes = Base64.getDecoder().decode(bytes);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(decodeBytes);
         KeyFactory factory = KeyFactory.getInstance(ALGORITHM);
@@ -70,7 +68,6 @@ public class RSAUtils {
      */
     public static String encrypt(String plainText) throws Exception {
         String publicKeyPath = staticGlobalConfiguration.getFilePath() + staticGlobalConfiguration.getPublicFileName();
-        System.out.println(publicKeyPath);
         // base64编码的公钥
         PublicKey publicKey = getPublicKey(publicKeyPath);
         // RSA加密
