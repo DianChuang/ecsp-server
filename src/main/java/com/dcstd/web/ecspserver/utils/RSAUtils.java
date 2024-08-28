@@ -1,6 +1,5 @@
 package com.dcstd.web.ecspserver.utils;
 
-import cn.hutool.core.io.resource.ClassPathResource;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
 import com.dcstd.web.ecspserver.exception.CustomException;
 import jakarta.annotation.PostConstruct;
@@ -8,10 +7,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -40,7 +36,7 @@ public class RSAUtils {
      */
     public static PublicKey getPublicKey(String filename) throws Exception {
         System.out.println("0");
-        byte[] bytes = readBytesFromFile(filename);
+        byte[] bytes = FileIOUtils.readBytesFromFile(filename);
 
         byte[] decodeBytes = Base64.getDecoder().decode(bytes);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(decodeBytes);
@@ -55,7 +51,7 @@ public class RSAUtils {
      * @throws Exception 读取私钥抛出的异常类型
      */
     public static PrivateKey getPrivateKey(String filename) throws Exception {
-        byte[] bytes = readBytesFromFile(filename);
+        byte[] bytes = FileIOUtils.readBytesFromFile(filename);
         System.out.println(bytes);
         byte[] decodeBytes = Base64.getDecoder().decode(bytes);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decodeBytes);
@@ -63,21 +59,7 @@ public class RSAUtils {
         return factory.generatePrivate(spec);
     }
 
-    /**
-     * 读取文件内容
-     * @param filename 文件名
-     * @return 文件内容(Bytes[])
-     */
-    private static byte[] readBytesFromFile(String filename) {
-        try {
-            ClassPathResource resource = new ClassPathResource(filename);
-            System.out.println("resource"+resource.getAbsolutePath());
-            File file = new File(resource.getAbsolutePath());
-            return Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
-            throw new CustomException(500, "读取RSA密钥文件失败");
-        }
-    }
+
 
     /**
      * RSA公钥加密

@@ -19,6 +19,11 @@ public class CustomException extends RuntimeException {
         this.msg = globalException.getMsg();
         this.tips = globalException.getTips();
     }
+    public CustomException(String msg)
+    {
+        super();
+        this.msg = msg;
+    }
     public CustomException(int code, String msg)
     {
         super();

@@ -19,12 +19,18 @@ public class GlobalConfiguration {
     private String appid;//小程序appid
     @Value("${custom-config.app-info.secret}")
     private String secret;//小程序secret
-    @Value("${custom-config.app-info.grant-type}")
-    private String grantType;//授权类型
+    @Value("${custom-config.app-info.grant-type-login}")
+    private String grantTypeLogin;//授权类型登录
+    @Value("${custom-config.app-info.grant-type-token}")
+    private String grantTypeToken;//授权类型Token
 
     /* URL信息 */
     @Value("${custom-config.url.wx-login}")
     private String wxLogin;//微信登录接口登录地址
+    @Value("${custom-config.url.wx-token}")
+    private String wxToken;//微信token获取地址
+    @Value("${custom-config.url.wx-user-info}")
+    private String wxUserInfo;//微信用户信息地址
     @Value("${custom-config.url.jw}")
     private String jw;//教务系统地址
     @Value("${custom-config.url.jw-get-public-key}")
@@ -44,11 +50,16 @@ public class GlobalConfiguration {
     @Value("${custom-config.time.cors-expire-time}")
     private int corsExpireTime;//当前跨域请求最大有效时长(秒)
 
+    /* 加密信息 */
     @Value("${custom-config.Encrypt.filePath}")
     private String filePath;//基础文件路径
     @Value("${custom-config.Encrypt.publicFileName}")
     private String publicFileName;//公钥文件名
     @Value("${custom-config.Encrypt.privateFileName}")
     private String privateFileName;//私钥文件名
+
+    /* 默认信息 */
+    @Value("${custom-config.default-info.file-user-avatar}")
+    private String FileUserAvatar;//默认头像地址
 
 }
