@@ -10,14 +10,22 @@ import com.dcstd.web.ecspserver.entity.User;
 import com.dcstd.web.ecspserver.exception.CustomException;
 import com.dcstd.web.ecspserver.exception.GlobalException;
 import com.dcstd.web.ecspserver.mapper.UserMapper;
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 public class JWTInterceptor implements HandlerInterceptor {
 
+    private static UserMapper staticUserMapper;
     @Resource
     private UserMapper userMapper;
+
+    @PostConstruct
+    private void init(){
+        // 初始化用户信息
+        staticUserMapper = userMapper;
+    }
 
     @Override
     public boolean preHandle(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, Object handler) {
@@ -41,12 +49,12 @@ public class JWTInterceptor implements HandlerInterceptor {
         // 获取token中的用户信息
         String uid;
         try {
-             uid = JWT.decode(token).getAudience().get(0);
+             uid = JWT.decode(token).getAudience().getFirst();
         } catch (JWTDecodeException e) {
             throw new CustomException(GlobalException.ERROR_TOKEN);
         }
         // 根据token中的uid查询数据库用户信息
-        User db_user = userMapper.selectUserById(uid);
+        User db_user = staticUserMapper.selectUserById(uid);
         if(db_user == null){
             throw new CustomException(GlobalException.ERROR_TOKEN);
         }

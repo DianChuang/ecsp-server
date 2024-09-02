@@ -61,5 +61,7 @@ public class GlobalConfiguration {
     /* 默认信息 */
     @Value("${custom-config.default-info.file-user-avatar}")
     private String FileUserAvatar;//默认头像地址
+    @Value("${custom-config.default-info.max-application-number}")
+    private int maxApplicationNumber;//默认最大申请数
 
 }

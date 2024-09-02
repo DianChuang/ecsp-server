@@ -42,6 +42,7 @@ public class TokenUtils {
     public static String createToken(String uid, String sign) {
         if(staticglobalConfiguration.getTokenExpireTime() <= 0){
             return JWT.create().withAudience(uid)
+                    .withExpiresAt(DateUtil.offsetDay(DateUtil.date(), 30))
                     .sign(Algorithm.HMAC256(sign));
         }
         return JWT.create().withAudience(uid)
