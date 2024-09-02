@@ -24,6 +24,7 @@ public class Ping {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         AppInfo.put("ServerTime", formatter.format(date));
+        AppInfo.put("Token", WxUtils.getWxToken());
         return Result.success(AppInfo);
     }
 }
