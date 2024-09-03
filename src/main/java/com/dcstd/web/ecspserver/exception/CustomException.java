@@ -1,13 +1,15 @@
 package com.dcstd.web.ecspserver.exception;
 
+import lombok.Getter;
+
 //GlobalCustomException.java
+@Getter
 public class CustomException extends RuntimeException {
     private int code = 500;
     private String msg = "服务器异常";
     private String tips = "服务器异常";
 
-    public CustomException()
-    {
+    public CustomException() {
         super();
     }
     public CustomException(GlobalException globalException)
@@ -16,6 +18,11 @@ public class CustomException extends RuntimeException {
         this.code = globalException.getCode();
         this.msg = globalException.getMsg();
         this.tips = globalException.getTips();
+    }
+    public CustomException(String msg)
+    {
+        super();
+        this.msg = msg;
     }
     public CustomException(int code, String msg)
     {
@@ -30,16 +37,5 @@ public class CustomException extends RuntimeException {
         this.msg = msg;
         this.tips = tips;
     }
-    public int getCode()
-    {
-        return code;
-    }
-    public String getMsg()
-    {
-        return msg;
-    }
-    public String getTips()
-    {
-        return tips;
-    }
+
 }
