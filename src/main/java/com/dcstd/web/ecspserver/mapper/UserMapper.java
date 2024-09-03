@@ -2,10 +2,10 @@ package com.dcstd.web.ecspserver.mapper;
 
 import com.dcstd.web.ecspserver.entity.User;
 import com.dcstd.web.ecspserver.entity.UserInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.Date;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {

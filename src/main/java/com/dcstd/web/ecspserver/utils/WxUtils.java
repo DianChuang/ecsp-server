@@ -57,7 +57,7 @@ public class WxUtils {
                     .execute()){
                 JSONObject wxLoginRequestJsonObject = JSONObject.parseObject(wxLoginRequest.body());
                 setNewWxToken(wxLoginRequestJsonObject.get("access_token").toString());
-                System.out.println(wxLoginRequestJsonObject);
+                //System.out.println(wxLoginRequestJsonObject);
                 return wxLoginRequestJsonObject.get("access_token").toString();
             } catch (Exception e) {
                 throw new CustomException("获取微信token失败");

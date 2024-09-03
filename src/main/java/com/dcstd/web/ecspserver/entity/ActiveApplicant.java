@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ActiveApplicant {
@@ -15,6 +16,9 @@ public class ActiveApplicant {
     private Integer id_category;
     private String name_applicant;
     private String contact_applicant;
+    private Integer id_cover; // 封面id
+    private String cover; //封面链接(自定义)
+    private List<ActiveApplicantImageLib> show_image;
     private String content;
     private Integer status;
     private Integer num_vote;

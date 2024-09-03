@@ -2,10 +2,13 @@ package com.dcstd.web.ecspserver.service;
 
 import cn.hutool.core.date.DateTime;
 import com.dcstd.web.ecspserver.entity.*;
+import com.dcstd.web.ecspserver.entityRes.ActiveApplicantVote;
 import com.dcstd.web.ecspserver.mapper.ActiveMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,12 +43,41 @@ public class ActiveService {
         return activeMapper.selectActiveApplicantById(idApplicant);
     }
 
-    public void updateActive(Integer id_active, String nameActive, String content, String cover, DateTime timeStart, DateTime timeEnd, String activeType, Integer limitNum) {
-        activeMapper.updateActive(id_active, nameActive, content, cover, timeStart, timeEnd, activeType, limitNum);
+    public void updateActive(Integer id_active, String nameActive, String content, Integer id_cover, DateTime timeStart, DateTime timeEnd, String activeType, Integer limitNum) {
+        activeMapper.updateActive(id_active, nameActive, content, id_cover, timeStart, timeEnd, activeType, limitNum);
     }
 
     public Map<Object, Object> selectActiveApplicantByUid(Integer uid) {
         return activeMapper.selectActiveApplicantByUid(uid);
+    }
+
+    public Map<Object, Object> selectDayVoteNumByDate(Date thisDayDate, Integer uid) {
+        return activeMapper.selectDayVoteNumByDate(thisDayDate, uid);
+    }
+
+    public void insertActiveVote(Integer idActiveApplicant, Integer uid) {
+        activeMapper.insertActiveVote(idActiveApplicant, uid);
+    }
+
+    public void updateActiveApplicantVoteNum(Integer idActiveApplicant) {
+        activeMapper.updateActiveApplicantVoteNum(idActiveApplicant);
+    }
+
+    public List<ActiveApplicantVote> selectActiveApplicants(Integer page, Integer limit) {
+        Integer index = (page - 1) * limit;
+        return activeMapper.selectActiveApplicantsLimit(index, limit);
+    }
+
+    public List<ActiveApplicantVote> selectActiveApplicants() {
+        return activeMapper.selectActiveApplicants();
+    }
+
+    public String getActiveApplicantCoverByCoverId(Integer idCover) {
+        return activeMapper.getActiveApplicantCoverByCoverId(idCover);
+    }
+
+    public List<ActiveApplicantImageLib> selectActiveImage() {
+        return activeMapper.selectActiveImage();
     }
 
 
