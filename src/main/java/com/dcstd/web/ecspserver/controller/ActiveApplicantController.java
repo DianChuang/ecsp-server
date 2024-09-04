@@ -33,7 +33,7 @@ public class ActiveApplicantController {
 
     @Resource
     private UserMapper userMapper;
-    @Autowired
+    @Resource
     private BaseInfoService baseInfoService;
 
     /**
@@ -69,13 +69,14 @@ public class ActiveApplicantController {
         Integer id_group = Integer.parseInt(p_data.get("id_group").toString());//申请部落id
         Integer id_category = Integer.parseInt(p_data.get("id_category").toString());//申请类别
         String content = p_data.get("content").toString();//申请内容
+        Integer id_cover = Integer.parseInt(Optional.ofNullable(p_data.get("cover")).orElse(1).toString());
 
 
         //获取组织信息
         SchoolGroup dbSchoolGroup = activeService.getSchoolGroupById(id_group);
         Integer id_belong = dbSchoolGroup.getId_belong();//获取组织归属
 
-        activeService.insertActiveApplicant(applicant_id, active_name, id_belong, id_group, id_category, applicant_name, contact_applicant, content);
+        activeService.insertActiveApplicant(applicant_id, active_name, id_belong, id_group, id_category, applicant_name, contact_applicant, content, id_cover);
 
         return Result.success();
     }
@@ -207,14 +208,24 @@ public class ActiveApplicantController {
     public Result activeApplicantInfo(@PathVariable("id") Integer id) {
         ActiveApplicant activeApplicant = activeService.getActiveApplicantById(id);
         if(activeApplicant == null) {
-            return Result.error(GlobalException.EMPTY.getCode(), "活动不存在！", GlobalException.EMPTY.getTips());
+            return Result.error(GlobalException.EMPTY.getCode(), "活动申请不存在！", GlobalException.EMPTY.getTips());
         }
-        List<ActiveApplicantImageLib> activeImageLibs = activeService.selectActiveImage();
-        activeImageLibs.forEach(activeImageLib -> {
-            activeImageLib.setUrl(globalConfiguration.getFileUrl() + globalConfiguration.getPathImage() + activeImageLib.getPath());
+        List<ActiveApplicantImageLib> activeApplicantImageLibs = activeService.selectActiveApplicantImage();
+        activeApplicantImageLibs.forEach(activeApplicantImageLib -> {
+            activeApplicantImageLib.setUrl(globalConfiguration.getFileUrl() + globalConfiguration.getPathImage() + activeApplicantImageLib.getPath());
         });
-        activeApplicant.setShow_image(activeImageLibs);
+        activeApplicant.setShow_image(activeApplicantImageLibs);
         return Result.success(activeApplicant);
+    }
+
+
+    /**
+     * 获取活动申请类别
+     * @return (Result)
+     */
+    @GetMapping("/application/cause")
+    public Result activeApplicantCause() {
+        return Result.success(activeService.selectActiveCategory());
     }
 
 

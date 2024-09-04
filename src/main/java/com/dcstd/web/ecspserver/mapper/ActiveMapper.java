@@ -2,6 +2,7 @@ package com.dcstd.web.ecspserver.mapper;
 
 import cn.hutool.core.date.DateTime;
 import com.dcstd.web.ecspserver.entity.*;
+import com.dcstd.web.ecspserver.entityRes.ActiveAll;
 import com.dcstd.web.ecspserver.entityRes.ActiveApplicantVote;
 import org.apache.ibatis.annotations.*;
 
@@ -25,7 +26,7 @@ public interface ActiveMapper {
     SchoolGroup selectSchoolGroupById(@Param("id") Integer id);
 
     //插入活动申请信息
-    @Select("insert into active_applicant(uid, name_active, id_belong, id_group, id_category, name_applicant, contact_applicant, content, num_vote, time) values(#{applicantId}, #{activeName}, #{idBelong}, #{idGroup}, #{idCategory}, #{applicantName}, #{contactApplicant}, #{content}, 1, CURRENT_TIMESTAMP())")
+    @Select("insert into active_applicant(uid, name_active, id_belong, id_group, id_category, name_applicant, contact_applicant, content, num_vote, time, id_cover) values(#{applicantId}, #{activeName}, #{idBelong}, #{idGroup}, #{idCategory}, #{applicantName}, #{contactApplicant}, #{content}, 1, CURRENT_TIMESTAMP(), #{idCover})")
     void insertActiveApplicant(@Param("applicantId") Integer applicantId,
                                @Param("activeName") String activeName,
                                @Param("idBelong") Integer idBelong,
@@ -33,7 +34,8 @@ public interface ActiveMapper {
                                @Param("idCategory") Integer idCategory,
                                @Param("applicantName") String applicantName,
                                @Param("contactApplicant") String contactApplicant,
-                               @Param("content") String content);
+                               @Param("content") String content,
+                               @Param("idCover") Integer idCover);
 
     //更新活动信息
     @Update("update active_info set position_detail = #{positionDetail}, time_join = #{timeJoin}, time_join_end = #{timeJoinEnd}, id_category = #{idCategory}, id_belong = #{idBelong}, id_group = #{idGroup}, id_superintendent = #{superintendent}, id_superintendent_phone = #{id_superintendent_phone}, number_group = #{numberGroup}, qrcode = #{qrcode}, code_invite = #{codeInvite} where id_applicant = #{idApplicant}")
@@ -98,5 +100,33 @@ public interface ActiveMapper {
 
     //查询该活动的所有图片
     @Select("select * from active_applicant_image_lib where status = 1")
-    List<ActiveApplicantImageLib> selectActiveImage();
+    List<ActiveApplicantImageLib> selectActiveApplicantImage();
+
+    //查询活动信息
+    @Select("select * from active where id = #{id}")
+    Active selectActiveById(Integer id);
+
+    //查询活动图片
+    @Select("select * from active_image_lib where status = 1 and id_active = #{activeId}")
+    List<ActiveImageLib> selectActiveImage(Integer activeId);
+
+    //查询活动信息
+    @Select("select * from active where id = #{id}")
+    ActiveAll selectActiveAllById(Integer id);
+
+    //查询活动信息
+    @Select("select * from active_info where id = #{id}")
+    ActiveInfo selectActiveInfoByActiveId(Integer id);
+
+    @Select("select * from active_category where id = #{idCategory}")
+    ActiveCategory selectCategoryById(Integer idCategory);
+
+    @Select("select * from active_belong where id = #{idBelong}")
+    ActiveBelong selectBelongById(Integer idBelong);
+
+    @Select("select path from active_image_lib where id = #{idCover}")
+    String getActiveCoverByCoverId(Integer idCover);
+
+    @Select("select * from active_category")
+    List<ActiveCategory> selectActiveCategory();
 }

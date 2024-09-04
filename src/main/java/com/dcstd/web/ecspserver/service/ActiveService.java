@@ -2,6 +2,7 @@ package com.dcstd.web.ecspserver.service;
 
 import cn.hutool.core.date.DateTime;
 import com.dcstd.web.ecspserver.entity.*;
+import com.dcstd.web.ecspserver.entityRes.ActiveAll;
 import com.dcstd.web.ecspserver.entityRes.ActiveApplicantVote;
 import com.dcstd.web.ecspserver.mapper.ActiveMapper;
 import jakarta.annotation.Resource;
@@ -31,8 +32,8 @@ public class ActiveService {
      * @param contactApplicant 联系人
      * @param content 活动内容
      */
-    public void insertActiveApplicant(Integer applicantId, String activeName, Integer idBelong, Integer idGroup, Integer idCategory, String applicantName, String contactApplicant, String content) {
-        activeMapper.insertActiveApplicant(applicantId, activeName, idBelong, idGroup, idCategory, applicantName, contactApplicant, content);
+    public void insertActiveApplicant(Integer applicantId, String activeName, Integer idBelong, Integer idGroup, Integer idCategory, String applicantName, String contactApplicant, String content, Integer idCover) {
+        activeMapper.insertActiveApplicant(applicantId, activeName, idBelong, idGroup, idCategory, applicantName, contactApplicant, content, idCover);
     }
 
     public void updateActiveInfoApplicantDetail(Integer idApplicant, String positionDetail, DateTime timeJoin, DateTime timeJoinEnd, Integer idCategory, Integer idBelong, Integer idGroup, String superintendent, String id_superintendent_phone, String numberGroup, String qrcode, String codeInvite) {
@@ -76,8 +77,40 @@ public class ActiveService {
         return activeMapper.getActiveApplicantCoverByCoverId(idCover);
     }
 
-    public List<ActiveApplicantImageLib> selectActiveImage() {
-        return activeMapper.selectActiveImage();
+    public List<ActiveApplicantImageLib> selectActiveApplicantImage() {
+        return activeMapper.selectActiveApplicantImage();
+    }
+
+    public Active getActiveById(Integer id) {
+        return activeMapper.selectActiveById(id);
+    }
+
+    public List<ActiveImageLib> selectActiveImage(Integer id) {
+        return activeMapper.selectActiveImage(id);
+    }
+
+    public ActiveAll getActiveAllById(Integer id) {
+        return activeMapper.selectActiveAllById(id);
+    }
+
+    public ActiveInfo selectActiveInfoByActiveId(Integer id) {
+        return activeMapper.selectActiveInfoByActiveId(id);
+    }
+
+    public ActiveCategory selectCategoryById(Integer idCategory) {
+        return activeMapper.selectCategoryById(idCategory);
+    }
+
+    public ActiveBelong selectBelongById(Integer idBelong) {
+        return activeMapper.selectBelongById(idBelong);
+    }
+
+    public String getActiveCoverByCoverId(Integer idCover) {
+        return activeMapper.getActiveCoverByCoverId(idCover);
+    }
+
+    public List<ActiveCategory> selectActiveCategory() {
+        return activeMapper.selectActiveCategory();
     }
 
 

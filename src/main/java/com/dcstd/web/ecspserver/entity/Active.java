@@ -3,6 +3,8 @@ package com.dcstd.web.ecspserver.entity;
 import jdk.jfr.Unsigned;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Active {
     private Integer id;// 活动id
@@ -10,6 +12,7 @@ public class Active {
     private String intro;// 活动介绍
     private String cover;// 封面链接(自定义)
     private Integer id_cover; // 封面id
+    private List<ActiveImageLib> show_image; // 展示图片(自定义)
     private String time_start;// 活动开始时间
     private String time_end;// 活动结束时间
     private String position;// 活动地点类别（外勤 / 线上）

@@ -1,13 +1,19 @@
 package com.dcstd.web.ecspserver.entityRes;
 
+import com.dcstd.web.ecspserver.entity.ActiveImageLib;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class ActiveAll {
     private Integer id;// 活动id
     private String name;// 活动名称
     private String intro;// 活动介绍
-    private String cover;// 封面
+    private String cover;// 封面链接(自定义)
+    private Integer id_cover; // 封面id
+    private List<ActiveImageLib> show_image; // 展示图片(自定义)
+    private Integer status;// 活动状态(0：隐藏，1：公开，-1：组织私有，-2：部门私有)
     private String time_start;// 活动开始时间
     private String time_end;// 活动结束时间
     private String position;// 活动地点类别（外勤 / 线上）
@@ -27,4 +33,7 @@ public class ActiveAll {
     private String qrcode;// 二维码地址
     private String code_invite;// 邀请码/签到标识码
     private String num_vote; // 投票数量
+    private String category; // 活动类别
+    private String belong; // 活动归属
+    private String group; // 负责组织
 }
