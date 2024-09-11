@@ -65,6 +65,7 @@ public class UserLogin {
                 throw new CustomException(GlobalException.ERROR_REGISTER);
             }
             newUserInfo.setId_student(Integer.parseInt(userInfoJsonObject.get("xh").toString()));//用户学号
+            newUserInfo.setGender(userInfoJsonObject.get("xbm").toString());//性别
             newUserInfo.setTime_join_school(userInfoJsonObject.get("rxrq").toString());//入学日期
             newUserInfo.setSpecialized(userInfoJsonObject.get("zyh_id").toString());//专业
             newUserInfo.setCollege(userInfoJsonObject.get("zsjg_id").toString());//学院
@@ -110,7 +111,10 @@ public class UserLogin {
         newUserInfo.setProfile_intro("没有找到此人的个签ヾ(•ω•`)o");//个签
 
         //插入更多信息
-        userMapper.insertUserInfo(newUserInfo.getUid(), newUserInfo.getAvatar(), newUserInfo.getGender(), newUserInfo.getName(), newUserInfo.getNickname(), newUserInfo.getId_student(), newUserInfo.getId_card(), newUserInfo.getProfile_intro(), newUserInfo.getEmail());
+        userMapper.insertUserInfo(newUserInfo.getUid(), newUserInfo.getAvatar(), newUserInfo.getGender(),
+                newUserInfo.getName(), newUserInfo.getNickname(), newUserInfo.getId_student(),
+                newUserInfo.getId_card(), newUserInfo.getProfile_intro(), newUserInfo.getEmail(),
+                newUserInfo.getTime_join_school(), newUserInfo.getCollege(), newUserInfo.getSpecialized(), newUserInfo.getBirthday());
 
         return Result.success("注册成功噜~");
     }
