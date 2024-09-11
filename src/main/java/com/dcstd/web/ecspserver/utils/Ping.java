@@ -1,6 +1,7 @@
 package com.dcstd.web.ecspserver.utils;
 
 import com.dcstd.web.ecspserver.common.AuthAccess;
+import com.dcstd.web.ecspserver.common.LogAnnotation;
 import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
 import com.dcstd.web.ecspserver.service.BaseInfoService;
@@ -22,6 +23,7 @@ public class Ping {
 
     @AuthAccess
     @RequestMapping("/ping")
+    @LogAnnotation(module = "Ping", operator = "连通性测试")
     public Result ping() {
         HashMap<String, String> AppInfo = new HashMap<>();
         AppInfo.put("AppName", globalConfiguration.getAppName());
