@@ -14,7 +14,6 @@ public class Post_insert {
     private Integer uid;//用户id
     private String content;//动态内容
     private Integer id_category;//分类
-    private String path;//图片地址
     private DateTime time;//发布时间
     private Integer is_anonymity;//匿名1/0
     private String contact_name;//联系方式—姓名

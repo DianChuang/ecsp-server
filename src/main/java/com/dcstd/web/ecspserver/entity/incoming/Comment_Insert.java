@@ -16,6 +16,5 @@ public class Comment_Insert {
     private Integer id_post;//所属动态id
     private Integer id_parent;//父内容id
     private Integer id_reply;//父内容id
-    private String path;//图片地址
     private DateTime time;//时间
 }

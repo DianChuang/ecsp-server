@@ -1,7 +1,6 @@
 package com.dcstd.web.ecspserver.entity.outgoing;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @FileName Post_content

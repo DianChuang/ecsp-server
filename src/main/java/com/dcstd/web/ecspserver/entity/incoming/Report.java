@@ -3,6 +3,8 @@ package com.dcstd.web.ecspserver.entity.incoming;
 import cn.hutool.core.date.DateTime;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 /**
  * @FileName Report
  * @Description
@@ -16,5 +18,6 @@ public class Report {
     private Integer id_post;//相关文章id
     private Integer id_comment;//相关评论id
     private DateTime time;//举报时间
-    private String  reason;//举报原因
+    private Integer  reason;//举报原因
+    private String description;//更多描述
 }
