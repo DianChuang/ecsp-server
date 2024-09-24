@@ -138,7 +138,6 @@ public class PostService {
         }
     }
 
-
     public Comment_father comment_parent(Integer post_id,Integer page){
         Integer limit=1,limit_son=2;
         Comment_father comment = new Comment_father();
@@ -148,5 +147,6 @@ public class PostService {
         }
         return comment;
     }
+
 
 }

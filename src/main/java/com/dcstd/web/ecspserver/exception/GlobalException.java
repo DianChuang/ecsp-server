@@ -1,6 +1,9 @@
 package com.dcstd.web.ecspserver.exception;
 
+import lombok.Getter;
+
 //GlobalException.java
+@Getter
 public enum GlobalException {
     //枚举
     EMPTY(300, "返回结果为空","查不到数据捏 >.<"),
@@ -13,7 +16,8 @@ public enum GlobalException {
     ERROR_WARNING_REGISTER(600102, "注册失败", "哒咩渗透!该行为已上报,多次进行该行为可能导致您的设备被封禁"),
     ERROR_LOGIN(600200, "登录失败", "ohno!您可能还没有注册..."),
     BAN_LOGIN(600201, "登录失败", "该账号已被封禁，如有疑问请联系管理员/官方账号"),
-    BAN_SAY(600300, "发言失败", "该账号已被禁言，如有疑问请联系管理员/官方账号");
+    BAN_SAY(600300, "发言失败", "该账号已被禁言，如有疑问请联系管理员/官方账号"),
+    ERROR_ACTIVE_APPLICANT_NUM(800001, "申请失败", "已到达最大同时活动申请上限，请等待其它申请结束");
 
     private int code;
     private String msg;
@@ -26,15 +30,4 @@ public enum GlobalException {
     }
 
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public String getTips() {
-        return tips;
-    }
 }

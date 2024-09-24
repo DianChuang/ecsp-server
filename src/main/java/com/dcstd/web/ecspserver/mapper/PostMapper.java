@@ -4,7 +4,12 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.dcstd.web.ecspserver.entity.outgoing.*;
+import com.dcstd.web.ecspserver.entity.outgoing.Course_category;
+import com.dcstd.web.ecspserver.entity.outgoing.Post_contact;
+import com.dcstd.web.ecspserver.entity.outgoing.Post;
+import com.dcstd.web.ecspserver.entity.outgoing.Report_cause;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.*;
 import org.w3c.dom.Text;
@@ -298,6 +303,7 @@ public interface PostMapper extends BaseMapper<Post> {
             @Param("sort") Integer sort//图片排序
     );
 
+
     //查询父评论数量
     @Select("select COUNT(*) from comment  where id_parent=-1 ")
     Integer parent_num();
@@ -332,6 +338,7 @@ public interface PostMapper extends BaseMapper<Post> {
             @Param("page") Integer page,
             @Param("limit") Integer limit
     );
+
 
 
 
