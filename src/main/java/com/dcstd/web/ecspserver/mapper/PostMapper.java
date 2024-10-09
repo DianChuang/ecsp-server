@@ -4,6 +4,8 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import com.dcstd.web.ecspserver.entity.outgoing.*;
 import com.dcstd.web.ecspserver.entity.outgoing.Course_category;
 import com.dcstd.web.ecspserver.entity.outgoing.Post_contact;
 import com.dcstd.web.ecspserver.entity.outgoing.Post;
@@ -300,4 +302,44 @@ public interface PostMapper extends BaseMapper<Post> {
             @Param("intro") String intro,//图片介绍
             @Param("sort") Integer sort//图片排序
     );
+
+
+    //查询父评论数量
+    @Select("select COUNT(*) from comment  where id_parent=-1 ")
+    Integer parent_num();
+    //查询子评论数量
+    @Select("select COUNT(*) from comment  where id_parent=#{comment_id} ")
+    Integer son_num(
+            @Param("comment_id") Integer comment_id//评论id
+    );
+
+    //请求父评论
+    @Select("select a.id,b.avatar,b.nickname,a.content,a.time,(select COUNT(*) from comment_tsan  where id_comment=a.id) as tsan_num,(select COUNT(*) from comment where  id_parent=a.id)as comment_num " +
+            "from comment as a left join user_info as b  " +
+            "on a.uid=b.uid " +
+            "where a.status=1 and a.id_post=#{post_id} and a.id_parent=-1 " +
+            "order by  tsan_num desc " +
+            " limit ${page},${limit} ")
+    Comment comment_parent(
+            @Param("post_id") Integer post_id,
+            @Param("page") Integer page,
+            @Param("limit") Integer limit
+    );
+
+    //请求子评论
+    @Select("select a.id,b.avatar,b.nickname,a.content,a.time,(select COUNT(*) from comment_tsan  where id_comment=a.id) as tsan_num,(select COUNT(*) from comment where  id_parent=a.id)as comment_num " +
+            "from comment as a left join user_info as b  " +
+            "on a.uid=b.uid " +
+            "where a.status=1 and a.id_parent=#{comment_id} " +
+            "order by  tsan_num desc " +
+            " limit ${page},${limit} ")
+    ArrayList<Comment> comment_son(
+            @Param("comment_id") Integer comment_id,
+            @Param("page") Integer page,
+            @Param("limit") Integer limit
+    );
+
+
+
+
 }

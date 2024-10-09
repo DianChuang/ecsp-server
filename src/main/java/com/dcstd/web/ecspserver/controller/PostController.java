@@ -2,6 +2,7 @@ package com.dcstd.web.ecspserver.controller;
 
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dcstd.web.ecspserver.common.AuthAccess;
 import com.dcstd.web.ecspserver.common.Result;
@@ -256,7 +257,6 @@ public class PostController {
 
 
     //帖子照片传输
-    @AuthAccess
     @PostMapping("/post/images")
     public Result post_image(@RequestBody Image_in images){
         try {
@@ -267,8 +267,8 @@ public class PostController {
             return Result.error();
         }
     }
+  
     //评论照片传输
-    @AuthAccess
     @PostMapping("/comment/images")
     public Result comment_image(@RequestBody Image_in images){
         try {
@@ -282,5 +282,49 @@ public class PostController {
         }
     }
 
+
+    //评论区父评论查询
+    @GetMapping("/post/comment_father")
+    public Result comment_parent(@RequestParam("post_id")Integer post_id, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit){
+        try {
+            Integer pages;
+            if(postMapper.parent_num()%limit==0){
+                 pages = postMapper.parent_num()/limit;
+            }else{
+                 pages = postMapper.parent_num()/limit+1;
+            }
+
+            Comment_parent comment = new Comment_parent();
+            ArrayList<Comment_father> comment_fathers = new ArrayList<>();
+            for (int i = 0; i < limit; i++) {
+                comment_fathers.add(i, postService.comment_parent(post_id,limit * (page - 1)+1+i));
+            }
+            comment.setComment_fathers(comment_fathers);
+
+            comment.setPages(pages);
+            return Result.success(comment) ;
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }
+    //评论区子评论查询
+    @GetMapping("/post/comment_son")
+    public Result comment_son( @RequestParam("comment_id") Integer comment_id, @RequestParam("page") Integer page,@RequestParam("limit") Integer limit){
+        try {
+            Integer pages;
+            if(postMapper.son_num(comment_id)%limit==0){
+                pages = postMapper.son_num(comment_id)/limit;
+            }else{
+                pages = postMapper.son_num(comment_id)/limit+1;
+            }
+            comment_son commentSon = new comment_son();
+            commentSon.setPages(pages);
+            ArrayList<Comment> comments = postMapper.comment_son(comment_id,limit * (page - 1), limit);
+            commentSon.setComments(comments);
+            return Result.success(commentSon);
+        } catch (Exception e) {
+            return Result.error();
+        }
+    }
 
 }
