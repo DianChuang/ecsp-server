@@ -138,6 +138,15 @@ public class PostService {
         }
     }
 
-    ;
+    public Comment_father comment_parent(Integer post_id,Integer page){
+        Integer limit=1,limit_son=2;
+        Comment_father comment = new Comment_father();
+        comment.setFather(postMapper.comment_parent(post_id,page - 1, limit));
+        if (comment.getFather() != null) {
+            comment.setSon(postMapper.comment_son(comment.getFather().getId(),0, limit_son));
+        }
+        return comment;
+    }
+
 
 }
