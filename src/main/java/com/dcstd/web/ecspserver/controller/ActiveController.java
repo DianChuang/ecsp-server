@@ -8,6 +8,7 @@ import com.dcstd.web.ecspserver.exception.GlobalException;
 import com.dcstd.web.ecspserver.mapper.UserMapper;
 import com.dcstd.web.ecspserver.service.ActiveService;
 import com.dcstd.web.ecspserver.utils.RSAUtils;
+import jakarta.annotation.Nullable;
 import jakarta.annotation.Resource;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

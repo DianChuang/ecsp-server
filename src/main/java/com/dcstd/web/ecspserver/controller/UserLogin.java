@@ -7,10 +7,12 @@ import com.dcstd.web.ecspserver.common.AuthAccess;
 import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.common.TDJW;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
+import com.dcstd.web.ecspserver.entity.JWInfo;
 import com.dcstd.web.ecspserver.entity.User;
 import com.dcstd.web.ecspserver.entity.UserInfo;
 import com.dcstd.web.ecspserver.exception.CustomException;
 import com.dcstd.web.ecspserver.exception.GlobalException;
+import com.dcstd.web.ecspserver.mapper.JWMapper;
 import com.dcstd.web.ecspserver.mapper.UserMapper;
 import com.dcstd.web.ecspserver.utils.B64;
 import com.dcstd.web.ecspserver.utils.RSAUtils;
@@ -20,11 +22,14 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.catalina.security.SecurityUtil;
 import org.eclipse.angus.mail.smtp.DigestMD5;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.HttpCookie;
 import java.security.Security;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class UserLogin {
@@ -34,6 +39,9 @@ public class UserLogin {
     @Resource
     GlobalConfiguration globalConfiguration;
 
+    @Resource
+    JWMapper jwMapper;
+
     /**
      * 用户注册
      * @param request 网络请求
@@ -41,6 +49,7 @@ public class UserLogin {
      */
     @AuthAccess
     @PostMapping("/register")
+    @Transactional(rollbackFor = Exception.class)
     public Result register(HttpServletRequest request) {
         String account = request.getParameter("account");
         String password = request.getParameter("password");
@@ -55,6 +64,9 @@ public class UserLogin {
 
         //用户信息数据初始化
         UserInfo newUserInfo = new UserInfo();
+
+        //cookie信息初始化
+        JWInfo newJWInfo = new JWInfo();
 
         //判断教务系统账号密码是否正确
         TDJW tdjw = new TDJW();
@@ -80,10 +92,13 @@ public class UserLogin {
             } catch (Exception e) {
                 System.out.println("敏感信息加密失败，放弃存入");
             }
+            //获取cookie信息
+            newJWInfo.setCookie_login(loginRequest.getCookies().toString());
 
         } catch (CustomException e){
-            throw new CustomException(500, "教务系统登录请求异常", e.getTips());
+            throw new CustomException(e.getCode(), "教务系统登录请求异常", e.getTips());
         } //教务系统登录成功
+
 
         //获取微信id及session信息
         HashMap<String, String> wxInfo = WxUtils.getWxId(code); //微信登录成功
@@ -110,11 +125,16 @@ public class UserLogin {
         newUserInfo.setNickname("用户"+ uid);//昵称
         newUserInfo.setProfile_intro("没有找到此人的个签ヾ(•ω•`)o");//个签
 
+        //设置Cookie对应uid
+        newJWInfo.setUid(uid);
+
         //插入更多信息
         userMapper.insertUserInfo(newUserInfo.getUid(), newUserInfo.getAvatar(), newUserInfo.getGender(),
                 newUserInfo.getName(), newUserInfo.getNickname(), newUserInfo.getId_student(),
                 newUserInfo.getId_card(), newUserInfo.getProfile_intro(), newUserInfo.getEmail(),
                 newUserInfo.getTime_join_school(), newUserInfo.getCollege(), newUserInfo.getSpecialized(), newUserInfo.getBirthday());
+
+        jwMapper.insertJWInfo(newJWInfo.getUid(), newJWInfo.getCookie_login());
 
         return Result.success("注册成功噜~");
     }

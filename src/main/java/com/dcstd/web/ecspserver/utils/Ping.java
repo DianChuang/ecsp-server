@@ -6,6 +6,7 @@ import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.config.GlobalConfiguration;
 import com.dcstd.web.ecspserver.service.BaseInfoService;
 import jakarta.annotation.Resource;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -35,4 +36,19 @@ public class Ping {
         //AppInfo.put("Token", WxUtils.getWxToken());
         return Result.success(AppInfo);
     }
+
+    @AuthAccess
+    @RequestMapping("/")
+    @LogAnnotation(module = "Ping", operator = "连通性测试（空）")
+    public Result pingTest() {
+        HashMap<String, String> AppInfo = new HashMap<>();
+        AppInfo.put("App名称", globalConfiguration.getAppName());
+        AppInfo.put("App版本", Optional.ofNullable(baseInfoService.getVersion()).orElse(globalConfiguration.getAppVersion()));
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        AppInfo.put("服务器时间", formatter.format(date));
+        return Result.success(AppInfo);
+    }
+
+
 }

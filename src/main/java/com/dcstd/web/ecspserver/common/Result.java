@@ -1,9 +1,12 @@
 package com.dcstd.web.ecspserver.common;
 
 //Result.java
+import com.alibaba.fastjson.JSONObject;
 import com.dcstd.web.ecspserver.exception.CustomException;
 import com.dcstd.web.ecspserver.exception.GlobalException;
 import lombok.Data;
+
+import java.util.HashMap;
 
 @Data
 public class Result<T> {

@@ -49,6 +49,12 @@ public class GlobalConfiguration {
     private String jwUserInfo;//教务系统用户信息和获取
     @Value("${custom-config.url.jw-transcript-info}")
     private String jwTranscriptInfo;
+    @Value("${custom-config.url.jw-exam-info}")
+    private String jwExamInfo;
+    @Value("${custom-config.url.jw-curriculum-info}")
+    private String jwCurriculumInfo;
+    @Value("${custom-config.url.jw-curriculum-table-info}")
+    private String jwCurriculumTableInfo;
 
     /* 时间信息 */
     @Value("${custom-config.time.token-expire-time}")
