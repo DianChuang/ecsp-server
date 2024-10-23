@@ -66,4 +66,6 @@ public interface ActiveMapper {
 
     @Select("select * from active_applicant where (id = #{uid} and status = 1)")
     Map<Object, Object> selectActiveApplicantByUid(Integer uid);
+
+//    @Select("select `category`,`belong`,`status` from `active_participate` as p inner join `active_info` as i on p.active_id = i.id inner join `active_category` as c on i.id_category = c.name inner join `active_belong` as b on i.id_belong = b.id ")
 }
