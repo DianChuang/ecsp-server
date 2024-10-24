@@ -2,10 +2,10 @@ package com.dcstd.web.ecspserver.mapper;
 
 import com.dcstd.web.ecspserver.entity.User;
 import com.dcstd.web.ecspserver.entity.UserInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.Date;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -21,24 +21,24 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User selectUserById(String uid);
 
-    @Insert("insert into user(wxoid, wxsession, account, password) values(#{wxoid}, #{wxsession}, #{account}, #{password})")
+    @Insert("insert into user(wxoid, wxsession, account, password, status) values(#{wxoid}, #{wxsession}, #{account}, #{password}, 1)")
     void insertUser(@Param("account") String account,
                     @Param("password") String password,
                     @Param("wxoid") String wxoid,
                     @Param("wxsession") String wxsession);
 
-    @Insert("insert into user_info(uid, avatar, gender, name, nickname, id_student, id_card, profile_intro, email) values(#{uid}, #{avatar}, #{gender}, #{name}, #{nickname}, #{id_student}, #{id_card}, #{profile_intro}, #{email})")
-    void insertUserInfo(@Param("uid") Integer uid,
-                         @Param("avatar") String avatar,
-                         @Param("gender") String gender,
-                         @Param("name") String name,
-                         @Param("nickname") String nickname,
-                         @Param("id_student") Integer id_student,
-                         @Param("id_card") String id_card,
-                         @Param("profile_intro") String profile_intro,
-                         @Param("email") String email);
+    @Insert("insert into user_info(uid, avatar, gender, name, nickname, id_student, " +
+            "id_card, profile_intro, email, time_join_school, college, specialized, birthday) " +
+            "values (#{uid}, #{avatar}, #{gender}, #{name}, #{nickname}, #{idStudent}, " +
+            "#{idCard}, #{profileIntro}, #{email}, #{timeJoinSchool}, #{college}, #{specialized}, #{birthday})")
+    void insertUserInfo(Integer uid, String avatar, String gender, String name,
+                        String nickname, Integer idStudent, String idCard,
+                        String profileIntro, String email, String timeJoinSchool,
+                        String college, String specialized, String birthday);
+
 
     //根据id查询用户详细信息
     @Select("select * from user_info where uid = #{id}")
     UserInfo selectUserInfoById(Integer id);
+
 }

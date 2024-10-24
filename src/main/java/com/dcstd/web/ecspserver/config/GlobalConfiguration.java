@@ -25,6 +25,10 @@ public class GlobalConfiguration {
     private String grantTypeToken;//授权类型Token
 
     /* URL信息 */
+    @Value("${custom-config.url.base-url}")
+    private String baseUrl;//基础地址
+    @Value("${custom-config.url.file-url}")
+    private String fileUrl;//文件地址
     @Value("${custom-config.url.wx-login}")
     private String wxLogin;//微信登录接口登录地址
     @Value("${custom-config.url.wx-token}")
@@ -43,6 +47,14 @@ public class GlobalConfiguration {
     private String jwLogin;//教务系统登录地址
     @Value("${custom-config.url.jw-user-info}")
     private String jwUserInfo;//教务系统用户信息和获取
+    @Value("${custom-config.url.jw-transcript-info}")
+    private String jwTranscriptInfo;
+    @Value("${custom-config.url.jw-exam-info}")
+    private String jwExamInfo;
+    @Value("${custom-config.url.jw-curriculum-info}")
+    private String jwCurriculumInfo;
+    @Value("${custom-config.url.jw-curriculum-table-info}")
+    private String jwCurriculumTableInfo;
 
     /* 时间信息 */
     @Value("${custom-config.time.token-expire-time}")
@@ -61,7 +73,18 @@ public class GlobalConfiguration {
     /* 默认信息 */
     @Value("${custom-config.default-info.file-user-avatar}")
     private String FileUserAvatar;//默认头像地址
+    @Value("${custom-config.default-info.file-active-cover}")
+    private String FileActiveCover;
     @Value("${custom-config.default-info.max-application-number}")
     private int maxApplicationNumber;//默认最大申请数
+    @Value("${custom-config.default-info.max-vote-number-per-day}")
+    private int maxVoteNumberPerDay;
 
+    /* 路径配置 */
+    @Value("${custom-config.path.path-image-user}")
+    private String pathImageUser;
+    @Value("${custom-config.path.path-image-cover}")
+    private String pathImageCover;
+    @Value("${custom-config.path.path-image}")
+    private String pathImage;
 }

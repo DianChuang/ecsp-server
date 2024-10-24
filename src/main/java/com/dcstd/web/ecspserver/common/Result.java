@@ -1,9 +1,12 @@
 package com.dcstd.web.ecspserver.common;
 
 //Result.java
+import com.alibaba.fastjson.JSONObject;
 import com.dcstd.web.ecspserver.exception.CustomException;
 import com.dcstd.web.ecspserver.exception.GlobalException;
 import lombok.Data;
+
+import java.util.HashMap;
 
 @Data
 public class Result<T> {
@@ -14,7 +17,7 @@ public class Result<T> {
     //统一返回值
     private int code = 200;
     private String msg = "操作成功";
-    private String tips = "操作完成噜~";
+    private String tips;
     private T data = null;
 
     /**
@@ -74,7 +77,7 @@ public class Result<T> {
      * @return Result
      */
     public static <T> Result success() {
-        Result result = new Result(SUCCESS, "操作成功");
+        Result result = new Result(SUCCESS, "操作成功", "操作完成噜~");
         return result;
     }
 

@@ -50,7 +50,6 @@ public class RSAUtils {
      */
     public static PrivateKey getPrivateKey(String filename) throws Exception {
         byte[] bytes = FileIOUtils.readBytesFromFile(filename);
-        System.out.println(bytes);
         byte[] decodeBytes = Base64.getDecoder().decode(bytes);
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decodeBytes);
         KeyFactory factory = KeyFactory.getInstance(ALGORITHM);
