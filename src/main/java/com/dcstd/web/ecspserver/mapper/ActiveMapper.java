@@ -72,6 +72,7 @@ public interface ActiveMapper {
     @Select("select * from active_applicant where (id = #{uid} and status = 1)")
     Map<Object, Object> selectActiveApplicantByUid(Integer uid);
 
+
     //查询今日投票次数
     @Select("select count(*) as num from active_vote where time >= #{thisDayDate} and uid = #{uid}")
     Map<Object, Object> selectDayVoteNumByDate(@Param("thisDayDate") Date thisDayDate,
