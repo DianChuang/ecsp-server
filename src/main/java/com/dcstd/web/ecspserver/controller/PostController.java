@@ -46,7 +46,6 @@ public class PostController {
             }
             return Result.error(301, "数据不足", "数据缺少辣~");
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(500, "操作失败", "寄，服务器出现问题了喵T^T");
         }
     }
@@ -63,7 +62,6 @@ public class PostController {
             }
             return Result.error(301, "数据不足", "数据缺少辣~");
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(500, "操作失败", "寄，服务器出现问题了喵T^T");
         }
     }
@@ -119,7 +117,6 @@ public class PostController {
             }
             return Result.error(301, "数据不足", "数据缺少辣~");
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(500, "操作失败", "寄，服务器出现问题了喵T^T");
         }
     }
@@ -137,7 +134,6 @@ public class PostController {
             }
             return Result.error(301, "数据不足", "数据缺少辣~");
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(500, "操作失败", "寄，服务器出现问题了喵T^T");
         }
     }
@@ -185,7 +181,7 @@ public class PostController {
 
     //获取联系方式
     @GetMapping("/post/contact")
-    public Result contact(@RequestParam Integer post_id) {
+    public Result contact(@RequestParam Integer post_id){
         try {
             if (post_id != null) {
                 Post_contact contact = postService.contact(post_id);
@@ -242,7 +238,6 @@ public class PostController {
             }
             return Result.error(301, "数据不足", "数据缺少或出错辣~");
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(500, "操作失败", "寄，服务器出现问题了喵T^T");
         }
     }
@@ -261,7 +256,6 @@ public class PostController {
             postService.post_insert_image(images);
             return Result.success();
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error();
         }
     }
