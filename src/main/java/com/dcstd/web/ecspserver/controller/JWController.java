@@ -7,6 +7,8 @@ import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.common.TDJW;
 import com.dcstd.web.ecspserver.entity.User;
 import com.dcstd.web.ecspserver.entityRes.Curriculum;
+import com.dcstd.web.ecspserver.entityRes.ExamInfo;
+import com.dcstd.web.ecspserver.entityRes.Transcript;
 import com.dcstd.web.ecspserver.exception.CustomException;
 import com.dcstd.web.ecspserver.service.JWService;
 import com.dcstd.web.ecspserver.utils.RSAUtils;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.HttpCookie;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class JWController {
@@ -116,14 +120,60 @@ public class JWController {
         List<HttpCookie> cookies = staticTDJW.getCookies();
         JSONObject transcript = jwService.getTranscript(cookies);
 
-        return Result.success(transcript);
+        //返回值
+        List<Transcript> res = new ArrayList<>();
+        //返回值元素
+        Transcript resItem = new Transcript();
+        int idCount = 0; // id
+        for(Object item : transcript.getJSONArray("items")) {
+            JSONObject jsonObject = (JSONObject) item;
+            //System.out.println(item);
+            resItem = new Transcript();
+            resItem.setId(idCount);
+            idCount++;
+            resItem.setSemester(jsonObject.get("xnmmc").toString() + "-" + (jsonObject.get("xqm").toString() == "3" ? "1" : "2"));
+            resItem.setName(jsonObject.get("kcmc").toString() + "(" + jsonObject.get("ksxz").toString() + ")");
+            resItem.setCharacteristic(jsonObject.get("kcxzmc").toString());
+            resItem.setType(jsonObject.get("kclbmc").toString());
+            resItem.setTestMode(Optional.ofNullable(jsonObject.get("khfsmc")).orElse(jsonObject.get("ksxz")).toString());
+            resItem.setCredit(jsonObject.get("xf").toString());
+            resItem.setPoint(jsonObject.get("jd").toString());
+            resItem.setScore(jsonObject.get("cj").toString());
+            resItem.setGrade(jsonObject.get("xfjd").toString());
+            res.add(resItem);
+        }
+
+
+        return Result.success(res);
     }
 
     @GetMapping("/jw/exam")
     public Result getExam() {
         List<HttpCookie> cookies = staticTDJW.getCookies();
         JSONObject exam = jwService.getExamInfo(cookies);
-        return Result.success(exam);
+
+        //返回值
+        List<ExamInfo> res = new ArrayList<>();
+        //返回值元素
+        ExamInfo resItem = new ExamInfo();
+        int idCount = 0; // id
+        for(Object item : exam.getJSONArray("items")) {
+            JSONObject jsonObject = (JSONObject) item;
+            //System.out.println(item);
+            resItem = new ExamInfo();
+            resItem.setId(idCount);
+            idCount++;
+            resItem.setSemester(jsonObject.get("ksmc").toString().substring(0, 11));
+            resItem.setName(jsonObject.get("kcmc").toString());
+            resItem.setTeacher(jsonObject.get("jsxx").toString().split("/")[1] + "(" + jsonObject.get("jsxx").toString().split("/")[0] + ")");
+            resItem.setType(jsonObject.get("ksmc").toString().substring(13));
+            resItem.setDate(jsonObject.get("kssj").toString().split("[(]")[0]);
+            resItem.setTime(jsonObject.get("kssj").toString().split("[(]")[1].split("[)]")[0]);
+            resItem.setPosition(jsonObject.get("cdmc").toString());
+            res.add(resItem);
+        }
+
+        return Result.success(res);
     }
 
     @GetMapping("/jw/curriculum")

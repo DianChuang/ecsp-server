@@ -106,7 +106,7 @@ public class WxUtils {
                 throw new CustomException(500, "微信Code有误");
             }
         } catch (Exception e) {
-            throw new CustomException(500, "微信登录接口请求出错");
+            throw new CustomException(500, "微信登录接口请求出错", e.getMessage());
         } //微信登录成功
 
         wxInfo.put("wxoid", wxoid);

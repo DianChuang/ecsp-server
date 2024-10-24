@@ -21,7 +21,7 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User selectUserById(String uid);
 
-    @Insert("insert into user(wxoid, wxsession, account, password) values(#{wxoid}, #{wxsession}, #{account}, #{password})")
+    @Insert("insert into user(wxoid, wxsession, account, password, status) values(#{wxoid}, #{wxsession}, #{account}, #{password}, 1)")
     void insertUser(@Param("account") String account,
                     @Param("password") String password,
                     @Param("wxoid") String wxoid,

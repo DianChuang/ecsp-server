@@ -153,11 +153,11 @@ public class UserLogin {
                 throw new CustomException(GlobalException.ERROR_LOGIN);
             }
             //判断用户状态
-            if(!dbUser.getStatus().equals("0") && !dbUser.getStatus().equals("-1")){
+            if(dbUser.getStatus().equals("0") || dbUser.getStatus().equals("-1")){
                 throw new CustomException(GlobalException.BAN_LOGIN);
             }
         } catch (Exception e) {
-            throw new CustomException(500, e.getMessage());
+            throw new CustomException(500, e.getMessage(), "用户不存在或状态异常");
         }
         //生成token
         dbUser.setToken(TokenUtils.createToken(String.valueOf(dbUser.getId()), dbUser.getPassword()));
