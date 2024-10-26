@@ -1,5 +1,6 @@
 package com.dcstd.web.ecspserver.controller;
 
+import com.dcstd.web.ecspserver.common.AuthAccess;
 import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class HomeController {
     }
 
     //获得三条首页“热播课程 ”
+    @AuthAccess
     @RequestMapping("/course")
     public Result getHotCourse() {
         try {
@@ -45,6 +47,7 @@ public class HomeController {
     }
 
     //获得所有“热播课程 ”
+    @AuthAccess
     @RequestMapping("/course/list")
     public Result getAllCourse(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
         try {

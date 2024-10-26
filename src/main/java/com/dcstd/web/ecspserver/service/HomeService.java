@@ -20,32 +20,27 @@ import java.util.ArrayList;
 public class HomeService {
     @Autowired
     HomeMapper homeMapper;
-//获取首页活动
+
+    //获取首页活动
     public HomeActive getActive(Integer page, Integer size) {
         HomeActive homeActive = new HomeActive();
         Integer pages = homeMapper.getActiveCount();
-        if (pages % size != 0) {
-            pages=pages/size+1;
-        }else {
-            pages = pages / size;
-        }
-        homeActive.setPages(pages);
-        homeActive.setActiveLists(homeMapper.getFirstActive(page,size));
-
+        homeActive.setPages(pages / size + (pages % size == 0 ? 0 : 1));
+        homeActive.setActiveLists(homeMapper.getFirstActive(size * (page - 1), size));
         return homeActive;
     }
 
     //获取热播课程(3条)
     public ArrayList<Course> getHotCourse() {
-       return homeMapper.getHotCourse();
+        return homeMapper.getHotCourse();
     }
 
     //获取课程列表
     public Course_form_father getAllCourse(Integer page, Integer limit) {
         Course_form_father course = new Course_form_father();
-        Integer pages = homeMapper.getActiveCount();
-        course.setPages(pages/limit+(pages%limit==0?0:1));
-        course.setList(homeMapper.getAllCourse(limit * (page-1), limit));
+        Integer pages = homeMapper.getCourseCount();
+        course.setPages(pages / limit + (pages % limit == 0 ? 0 : 1));
+        course.setList(homeMapper.getAllCourse(limit * (page - 1), limit));
         return course;
     }
 }
