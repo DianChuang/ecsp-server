@@ -19,6 +19,6 @@ public class GlobalExceptionHandle {
             return Result.error(globalCustomException);
         }
         LogUtils.thrExceptLog(null, e);
-        return Result.error(500, "服务器内部异常"+e.getMessage(), "服务器内部异常");
+        return Result.error(500, "服务器内部异常："+e.getMessage(), "服务器内部异常");
     }
 }

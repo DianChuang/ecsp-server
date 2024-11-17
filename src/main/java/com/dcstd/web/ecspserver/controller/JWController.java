@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.HttpCookie;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class JWController {
@@ -114,7 +111,27 @@ public class JWController {
         return new int[]{startAttend, endAttend};
     }
 
+    /**
+     * 获取空教室
+     * @param date (String)日期 YYYYMMDD
+     * @return
+     */
+    @GetMapping("/jw/emptyClassRoom")
+    @LogAnnotation(module = "JW-CONTROLLER", operator = "获取空教室")
+    public Result getEmptyClassRoom(@Param("date") String date) {
+        List<HttpCookie> cookies = staticTDJW.getCookies();
+        //TODO: 获取空教室
+        //JSONObject emptyClassRoom = jwService.getEmptyClassRoom(cookies);
+        return Result.success();
 
+
+    }
+
+
+    /**
+     * 获取成绩单
+     * @return
+     */
     @GetMapping("/home/hall/transcripts")
     public Result getTranscript() {
         List<HttpCookie> cookies = staticTDJW.getCookies();
@@ -131,7 +148,8 @@ public class JWController {
             resItem = new Transcript();
             resItem.setId(idCount);
             idCount++;
-            resItem.setSemester(jsonObject.get("xnmmc").toString() + "-" + (jsonObject.get("xqm").toString() == "3" ? "1" : "2"));
+            resItem.setSemester(jsonObject.get("xnmmc").toString() + "-" + (Objects.equals(jsonObject.get("xqm").toString(), "3") ? "1" : "2"));//TODO
+            //resItem.setSemester(jsonObject.get("xnmmc").toString() + "-" + (jsonObject.get("xqm").toString() == "3" ? "1" : "2"));
             resItem.setName(jsonObject.get("kcmc").toString() + "(" + jsonObject.get("ksxz").toString() + ")");
             resItem.setCharacteristic(jsonObject.get("kcxzmc").toString());
             resItem.setType(jsonObject.get("kclbmc").toString());
@@ -148,6 +166,7 @@ public class JWController {
     }
 
     @GetMapping("/jw/exam")
+    @LogAnnotation(module = "JW-CONTROLLER", operator = "获取课程表")
     public Result getExam() {
         List<HttpCookie> cookies = staticTDJW.getCookies();
         JSONObject exam = jwService.getExamInfo(cookies);

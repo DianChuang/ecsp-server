@@ -55,6 +55,8 @@ public class GlobalConfiguration {
     private String jwCurriculumInfo;
     @Value("${custom-config.url.jw-curriculum-table-info}")
     private String jwCurriculumTableInfo;
+    @Value("${custom-config.url.jw-empty-class-info}")
+    private String jwEmptyClassInfo;
 
     /* 时间信息 */
     @Value("${custom-config.time.token-expire-time}")

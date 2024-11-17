@@ -24,7 +24,7 @@ public interface HomeMapper {
   Integer getActiveCount();
 
   //查询校园生活的活动
-  @Select("SELECT a.id, a.name, a.cover,b.name FROM active as a left join active_info as c ON a.id=c.id LEFT JOIN active_belong as b on  c.id_belong = b.id where status=1  LIMIT ${page}, ${size}")
+  @Select("SELECT a.id, a.name, a.id_cover ,b.name FROM active as a left join active_info as c ON a.id=c.id LEFT JOIN active_belong as b on  c.id_belong = b.id where status=1  LIMIT ${page}, ${size}")
   ArrayList<ActiveList> getFirstActive(Integer page, Integer size);
 
   //查询热播课程
@@ -43,7 +43,7 @@ public interface HomeMapper {
   @Select("SELECT title,cover, source, view_num " +
           "FROM course_info " +
           "ORDER BY view_num DESC " +
-          "LIMIT #{page},#{limit}")
+          "LIMIT ${page}, ${limit}")
   ArrayList<Course_form> getAllCourse(Integer page, Integer limit);
 
 

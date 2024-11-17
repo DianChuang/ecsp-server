@@ -14,6 +14,5 @@ public class Transcript {
     private String credit; // 学分 xf
     private String point; // 绩点 jd
     private String score; // 成绩 cj
-    @JsonIgnore
     private String grade; // 学分绩点 xfjd
 }

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.dcstd.web</groupId>
     <artifactId>ecsp-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-dev</version>
     <name>ecsp-server</name>
     <description>ecsp-server</description>
     <url/>
