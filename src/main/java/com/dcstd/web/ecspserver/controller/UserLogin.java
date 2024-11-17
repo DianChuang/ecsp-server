@@ -110,7 +110,8 @@ public class UserLogin {
         try {
             newUser.setPassword(RSAUtils.encrypt(password));
         } catch (Exception e) {
-            throw new CustomException(500, "密码加密失败!");
+            System.out.println(e.getMessage());
+            throw new CustomException(500, "密码加密失败!", e.getMessage());
         }
         newUser.setWxoid(wxInfo.get("wxoid"));
         newUser.setWxsession(wxInfo.get("wxsession"));

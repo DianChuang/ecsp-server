@@ -66,7 +66,8 @@ public class RSAUtils {
      * @throws Exception 加密过程中的异常信息
      */
     public static String encrypt(String plainText) throws Exception {
-        String publicKeyPath = staticGlobalConfiguration.getFilePath() + staticGlobalConfiguration.getPublicFileName();
+        String publicKeyPath = staticGlobalConfiguration.getFilePath() + "/" + staticGlobalConfiguration.getPublicFileName();
+        System.out.println(publicKeyPath);
         // base64编码的公钥
         PublicKey publicKey = getPublicKey(publicKeyPath);
         // RSA加密
@@ -83,7 +84,7 @@ public class RSAUtils {
      * @return 明文
      */
     public static String decrypt(String cipherText) throws Exception {
-        String privateKeyPath = staticGlobalConfiguration.getFilePath() + staticGlobalConfiguration.getPrivateFileName();
+        String privateKeyPath = staticGlobalConfiguration.getFilePath() + "/" + staticGlobalConfiguration.getPrivateFileName();
         // 64位解码加密后的字符串
         byte[] inputBytes;
         inputBytes = Base64.getDecoder().decode(cipherText.getBytes(StandardCharsets.UTF_8));
