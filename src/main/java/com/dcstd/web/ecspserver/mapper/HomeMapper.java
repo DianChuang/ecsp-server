@@ -43,7 +43,7 @@ public interface HomeMapper {
   @Select("SELECT title,cover, source, view_num " +
           "FROM course_info " +
           "ORDER BY view_num DESC " +
-          "LIMIT page,limit")
+          "LIMIT #{page},#{limit}")
   ArrayList<Course_form> getAllCourse(Integer page, Integer limit);
 
 

@@ -11,6 +11,7 @@ import lombok.Data;
  **/
 @Data
 public class Post_insert {
+    private Integer id;//帖子id
     private Integer uid;//用户id
     private String content;//动态内容
     private Integer id_category;//分类

@@ -26,6 +26,9 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper extends BaseMapper<Post> {
+    @Select("select Last_INSERT_ID()")
+    Integer getLast_insert_id();
+
     //发帖
     @Insert("insert into `post` value (null,#{uid},#{content},0,0,#{id_category},null,0,#{time},#{is_anonymity},#{contact_name},#{contact_type},#{contact_number})")
     void post_insert(
