@@ -3,17 +3,16 @@ package com.dcstd.web.ecspserver.controller;
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dcstd.web.ecspserver.common.AuthAccess;
 import com.dcstd.web.ecspserver.common.Result;
 import com.dcstd.web.ecspserver.entity.incoming.*;
 import com.dcstd.web.ecspserver.entity.outgoing.*;
 import com.dcstd.web.ecspserver.mapper.PostMapper;
 import com.dcstd.web.ecspserver.service.PostService;
+import com.dcstd.web.ecspserver.service.AuditService;
 import com.dcstd.web.ecspserver.utils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.AccessType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,10 +30,13 @@ public class PostController {
     @Autowired
     private PostService postService;
     @Autowired
+    private AuditService auditService;
+    @Autowired
     private PostMapper postMapper;
 
 
     //增加帖子
+    @AuthAccess
     @PostMapping("/post/insert")
     public Result PostInsert(@RequestBody Post_insert post_insert) {
         try {
@@ -42,7 +44,8 @@ public class PostController {
             if (post_insert.getUid() != null && post_insert.getContent() != null && post_insert.getId_category() != null && post_insert.getIs_anonymity() != null) {
                 post_insert.setTime(new DateTime());
                 postService.post_insert(post_insert);//发帖操作
-                return Result.success("发帖成功");
+                auditService.post_audit_set(postMapper.getLast_insert_id()); //id存入队列
+                return Result.success("发帖成功，等待审核");
             }
             return Result.error(301, "数据不足", "数据缺少辣~");
         } catch (Exception e) {
@@ -51,6 +54,7 @@ public class PostController {
     }
 
     //发评论
+    @AuthAccess
     @PostMapping("/post/comment/insert")
     public Result CommentInsert(@RequestBody Comment_Insert comment_insert) {
         try {
@@ -58,10 +62,12 @@ public class PostController {
             if (comment_insert.getUid() != null && comment_insert.getContent() != null && comment_insert.getId_post() != null && comment_insert.getId_parent() != null && comment_insert.getId_reply() != null) {
                 comment_insert.setTime(new DateTime());
                 postService.comment_insert(comment_insert);//发评论操作
-                return Result.success("评论成功");
+                auditService.comment_audit_set(postMapper.getLast_insert_id()); //id存入队列
+                return Result.success("评论成功，等待审核");
             }
             return Result.error(301, "数据不足", "数据缺少辣~");
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.error(500, "操作失败", "寄，服务器出现问题了喵T^T");
         }
     }

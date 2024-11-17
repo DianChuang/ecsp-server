@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @Component
-public final class Redis {
+public final class RedisUtils {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -27,7 +27,7 @@ public final class Redis {
      * @return true 成功 false 失败
      */
     public boolean expire(String key, long time) {
-        try {
+        try{
             if (time > 0) {
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
             }
@@ -475,6 +475,21 @@ public final class Redis {
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 取出list下一个内容
+     *
+     * @param key 键
+     * @return
+     */
+    public Object lGet(String key) {
+        try {
+            return redisTemplate.opsForList().leftPop(key);
+        }catch (Exception e) {
             e.printStackTrace();
             return null;
         }
